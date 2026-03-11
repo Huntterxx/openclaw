@@ -151,7 +151,6 @@ export function parseTtsDirectives(
         continue;
       }
       const key = rawKey.toLowerCase();
-      // Collect remaining tokens without '=' for multi-word values (e.g. instructions)
       if (key === "instructions") {
         const parts = [rawValue];
         while (i + 1 < tokens.length && !tokens[i + 1].includes("=")) {
