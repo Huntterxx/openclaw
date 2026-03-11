@@ -117,6 +117,7 @@ export type ResolvedTtsConfig = {
     baseUrl: string;
     model: string;
     voice: string;
+    instructions?: string;
   };
   edge: {
     enabled: boolean;
@@ -163,6 +164,7 @@ export type TtsDirectiveOverrides = {
   openai?: {
     voice?: string;
     model?: string;
+    instructions?: string;
   };
   elevenlabs?: {
     voiceId?: string;
@@ -304,6 +306,7 @@ export function resolveTtsConfig(cfg: OpenClawConfig): ResolvedTtsConfig {
       ).replace(/\/+$/, ""),
       model: raw.openai?.model ?? DEFAULT_OPENAI_MODEL,
       voice: raw.openai?.voice ?? DEFAULT_OPENAI_VOICE,
+      instructions: raw.openai?.instructions,
     },
     edge: {
       enabled: raw.edge?.enabled ?? true,
@@ -686,12 +689,14 @@ export async function textToSpeech(params: {
       } else {
         const openaiModelOverride = params.overrides?.openai?.model;
         const openaiVoiceOverride = params.overrides?.openai?.voice;
+        const openaiInstructionsOverride = params.overrides?.openai?.instructions;
         audioBuffer = await openaiTTS({
           text: params.text,
           apiKey,
           baseUrl: config.openai.baseUrl,
           model: openaiModelOverride ?? config.openai.model,
           voice: openaiVoiceOverride ?? config.openai.voice,
+          instructions: openaiInstructionsOverride ?? config.openai.instructions,
           responseFormat: output.openai,
           timeoutMs: config.timeoutMs,
         });
