@@ -620,9 +620,10 @@ export async function openaiTTS(params: {
   model: string;
   voice: string;
   responseFormat: "mp3" | "opus" | "pcm";
+  instructions?: string;
   timeoutMs: number;
 }): Promise<Buffer> {
-  const { text, apiKey, baseUrl, model, voice, responseFormat, timeoutMs } = params;
+  const { text, apiKey, baseUrl, model, voice, responseFormat, timeoutMs, instructions } = params;
 
   if (!isValidOpenAIModel(model, baseUrl)) {
     throw new Error(`Invalid model: ${model}`);
@@ -646,6 +647,7 @@ export async function openaiTTS(params: {
         input: text,
         voice,
         response_format: responseFormat,
+        ...(instructions && model.includes("gpt-4o-mini-tts") ? { instructions } : {}),
       }),
       signal: controller.signal,
     });
