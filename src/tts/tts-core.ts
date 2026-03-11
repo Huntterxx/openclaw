@@ -318,6 +318,12 @@ export function parseTtsDirectives(
               seed: normalizeSeed(Number.parseInt(rawValue, 10)),
             };
             break;
+          case "instructions":
+            if (!policy.allowVoiceSettings) {
+              break;
+            }
+            overrides.openai = { ...overrides.openai, instructions: rawValue };
+            break;
           default:
             break;
         }
