@@ -11,7 +11,7 @@ type PreflightCheckResult = {
 /**
  * Run lightweight preflight checks after onboarding completes.
  * Each check reuses existing subsystem code and has a 3-second timeout.
- * Results are printed but never block setup completion.
+ * Results are printed but never block setup completiogn.
  */
 export async function runPostOnboardPreflight(
   cfg: OpenClawConfig,
