@@ -124,7 +124,7 @@ describe("runPostOnboardPreflight", () => {
     expect(output).not.toContain("issue");
   });
 
-  it("shows WARN and doctor hint for failed config", async () => {
+  it("shows FAIL and doctor hint for invalid config", async () => {
     readConfigFileSnapshot.mockResolvedValue({
       path: "/mock/.openclaw/openclaw.json",
       exists: true,
