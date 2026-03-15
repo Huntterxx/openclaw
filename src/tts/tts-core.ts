@@ -681,6 +681,7 @@ export async function openaiTTS(params: {
 
 export function inferEdgeExtension(outputFormat: string): string {
   const normalized = outputFormat.toLowerCase();
+
   if (normalized.includes("webm")) {
     return ".webm";
   }
@@ -690,9 +691,14 @@ export function inferEdgeExtension(outputFormat: string): string {
   if (normalized.includes("opus")) {
     return ".opus";
   }
-  if (normalized.includes("wav") || normalized.includes("riff") || normalized.includes("pcm")) {
+  if (
+    normalized.includes("wav") ||
+    normalized.includes("riff") ||
+    normalized.includes("pcm")
+  ) {
     return ".wav";
   }
+
   return ".mp3";
 }
 
@@ -703,6 +709,11 @@ export async function edgeTTS(params: {
   timeoutMs: number;
 }): Promise<void> {
   const { text, outputPath, config, timeoutMs } = params;
+
+  
+  if (!text || text.trim().length === 0) {
+    throw new Error("TTS text cannot be empty");
+  }
 
   const tts = new EdgeTTS({
     voice: config.voice,
@@ -716,11 +727,6 @@ export async function edgeTTS(params: {
     timeout: config.timeoutMs ?? timeoutMs,
   });
 
-  
-  if (!text || text.trim().length === 0) {
-    throw new Error("TTS text cannot be empty");
-  }
-
   await tts.ttsPromise(text, outputPath);
 
   let { size } = statSync(outputPath);
@@ -731,7 +737,7 @@ export async function edgeTTS(params: {
     ({ size } = statSync(outputPath));
 
     if (size === 0) {
-      throw new Error(`Edge TTS produced empty audio file (size=${size})`);
+      throw new Error("Edge TTS produced empty audio file after retry");
     }
   }
 }
