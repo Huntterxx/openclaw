@@ -29,7 +29,7 @@ export function createTtsTool(opts?: {
       const channel = readStringParam(params, "channel");
       const resolvedChannel = channel ?? opts?.agentChannel;
 
-      if (!opts?.agentChannel && !channel) {
+      if (!opts?.agentChannel) {
         return {
           content: [
             {
