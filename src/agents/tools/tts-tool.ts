@@ -34,7 +34,7 @@ export function createTtsTool(opts?: {
           content: [
             {
               type: "text",
-              text: 'TTS requires a bound channel for audio delivery. Use sessionTarget: "main" or provide a channel parameter.',
+              text: 'TTS requires a bound session channel for audio delivery. Use sessionTarget: "main" instead of "isolated".',
             },
           ],
           details: { error: "no_channel" },
