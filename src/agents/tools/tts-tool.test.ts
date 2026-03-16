@@ -16,7 +16,8 @@ describe("createTtsTool", () => {
   it("returns error when no delivery channel is available", async () => {
     const tool = createTtsTool();
     const result = await tool.execute("test-call", { text: "hello world" });
-    expect(result.content[0].text).toContain("requires a bound channel");
-    expect(result.details.error).toBe("no_channel");
+    const firstContent = result.content[0] as { type: string; text: string };
+    expect(firstContent.text).toContain("requires a bound channel");
+    expect((result.details as Record<string, unknown>).error).toBe("no_channel");
   });
 });
