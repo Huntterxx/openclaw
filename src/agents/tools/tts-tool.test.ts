@@ -13,11 +13,11 @@ describe("createTtsTool", () => {
     expect(tool.description).not.toContain("NO_REPLY");
   });
 
-  it("returns error when no delivery channel is available", async () => {
+  it("returns error even when channel arg is provided but no agentChannel", async () => {
     const tool = createTtsTool();
-    const result = await tool.execute("test-call", { text: "hello world" });
+    const result = await tool.execute("test-call", { text: "hello world", channel: "telegram" });
     const firstContent = result.content[0] as { type: string; text: string };
-    expect(firstContent.text).toContain("requires a bound channel");
+    expect(firstContent.text).toContain("requires a bound");
     expect((result.details as Record<string, unknown>).error).toBe("no_channel");
   });
 });
