@@ -17,5 +17,4 @@ describe("createTtsTool", () => {
     expect(tool.description).toContain("QUIET_TOKEN");
     expect(tool.description).not.toContain("NO_REPLY");
   });
-  });
 });
